@@ -6,30 +6,20 @@ import tableIcons from './MaterialTableIcons';
 import { Link } from '@material-ui/core';
 import Bmi from '../Bmi/Bmi';
 import Date from '../dateFormat/Date';
-import api from '../../api/axios';
+import {fetchPeople} from '../../api/axios';
 
 
-const Table = ({tableData, setTableData}) => {
-  const [nextPage, setNextPage] = useState([])
+const Table = () => {
+const [tableData, setTableData] = useState([]);
 
-  
-// fetch data from api
-const getNextPage = async()=>{
-  try{
-    const response = await api.get('people');
-    const displayResults = response.data.next;
-    setNextPage(displayResults)
-    console.log(displayResults)
 
-  } catch(error){
-    alert("you have following" + error)
-    }
+const getPeopleDetails = async () =>{
+    setTableData(await fetchPeople())
 }
 
 useEffect(()=>{
-  getNextPage();
+  getPeopleDetails();
 }, [])
-
 
 // edit handler function
 const editHandler = (resolve, reject, selectedRows) => {
@@ -52,9 +42,9 @@ const editHandler = (resolve, reject, selectedRows) => {
     { title: "Mass", field: "mass", type: "numeric" },
     { title: "BMI", field: "bmi", type: "numeric",  editable: 'never', render: (row) => <Bmi height={row.height} mass={row.mass}/>},
     { title: "Gender", field: "gender", lookup:{male: "Male", female: "Female", "n/a": "Other"}},
-    { title: "Films", field: "films", type: "numeric", editable: 'never',  render: (row) =>  <Link href={`people/${row.tableData.id}`}>{row.films.length}</Link>},
-    { title: "Vehicles", field: "vehicles", type: "numeric", editable: 'never', render: (row) => row.vehicles.length },
-    { title: "Starship", field: "starships", type: "numeric", editable: 'never',  render: (row) => row.starships.length },
+    { title: "Films", field: "films", type: "numeric", editable: 'never',  render: (row) => <Link href={`films/${row.tableData.id + 1}`}>{row.films.length}</Link>},
+    { title: "Vehicles", field: "vehicles", type: "numeric", editable: 'never', render: (row) => <Link href={`vehicles/${row.tableData.id + 1}`}>{ row.vehicles.length }</Link>},
+    { title: "Starship", field: "starships", type: "numeric", editable: 'never',  render: (row) =>  <Link href={`starships/${row.tableData.id + 1}`}>{row.starships.length}</Link> },
     { title: "Date", field: "created", type: "date", editable: 'never', render: (row) => <Date created={row.created}/>},
   ];
 

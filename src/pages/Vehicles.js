@@ -4,41 +4,43 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
-import {fetchSinglePeople, fetchSpecificFilm} from '../api/axios';
+import {fetchSinglePeople, fetchSpecificVehicle} from '../api/axios';
 import { useParams } from 'react-router-dom';
 
 const Films = () => {
-  const {id} = useParams()
-  const [user, setUser] = useState([]);
-  const [movies, setMovies] = useState([]);
- 
+    const {id} = useParams()
+    const [user, setUser] = useState([]);
+    const [vehicles, setVehicles] = useState([]);
 
   const getUser = async () =>{
       setUser(await fetchSinglePeople(id))
   }
 
-  // const getFilmUrl = (list) => {
-  //   const url = list;
-  // }
+  const getFilmUrl = (list) => {
+    const url = list;
 
-  const getFilm = async () => {
-    setMovies(await fetchSpecificFilm(2))
+  }
+
+  const getVehicle = async () => {
+   setVehicles(await fetchSpecificVehicle(14));
+    
   }
 
   
   useEffect(()=>{
     getUser();
-    getFilm();
+    getVehicle();
   }, [])
 
-
+console.log(vehicles)
  
   return (
     <section className='filmscontainer'>
-      <h2>Film Details</h2>
+      <h2>Vehicle Details</h2>
       <div className='films_wrapper'>
-      {user.films && user.films.map((list, key) => (
-          <Card key={key} sx={{ maxWidth: 345, marginTop: "25px" }}>
+        {}
+      {user.vehicles && user.vehicles.map((list, key) => (
+          <Card key={key}sx={{ maxWidth: 345, marginTop: "25px" }}>
             <CardActionArea>
               <CardMedia style={{ backgroundColor: "blueviolet"}}
                 component="img"
@@ -47,11 +49,13 @@ const Films = () => {
               />
               <CardContent>
                 <Typography gutterBottom variant="h6" component="div">
-                  Title: {list}
-                  {/* {getFilmUrl(list)} */}
+                  Link: {list}
+                  {getFilmUrl(list)}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  <strong>Description:</strong> {movies.opening_crawl}
+                  <p><strong>Name:</strong> {vehicles.name} </p>
+                  <p><strong>Model:</strong> {vehicles.model} </p>
+                  <p><strong>Manufacturer: {vehicles.manufacturer}</strong></p>
                 </Typography>
               </CardContent>
             </CardActionArea>
@@ -64,3 +68,4 @@ const Films = () => {
 }
 
 export default Films;
+

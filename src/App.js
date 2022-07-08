@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import Table from './components/table/Table';
+import Home from './pages/Home';
 import Films from './pages/Films';
 import Vehicles from './pages/Vehicles';
 import Starships from './pages/Starships';
@@ -12,7 +12,7 @@ function App() {
     <div className='App'>
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<Table />}/>
+          <Route path='/' element={<Home />}/>
           <Route path='/films/:id' element = {<Films />}/>
           <Route path='/vehicles/:id' element = {<Vehicles />}/>
           <Route path='/starships/:id' element = {<Starships />}/>
